@@ -6,9 +6,14 @@ class IdeaCategory
     validates :name
     validates :body
   end
-
+  
   def save
-    category = Category.create(name: name)
-    Idea.create(body: body, category_id: category.id)
+    if Category.exists?(name: name)
+      category = Category.find_by(name: name)
+      Idea.create(body: body, category_id: category.id)
+    else
+      category = Category.create(name: name)
+      Idea.create(body: body, category_id: category.id)
+    end
   end
 end

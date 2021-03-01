@@ -15,9 +15,10 @@ class IdeasController < ApplicationController
 
   # POST /ideas
   def create
-    @idea = Idea.new(idea_params)
+    
+    @idea_category = IdeaCategory.new(idea_category_params)
 
-    if @idea.save
+    if @idea_category.save
       render json: @idea, status: :created, location: @idea
     else
       render json: @idea.errors, status: :unprocessable_entity
@@ -45,7 +46,7 @@ class IdeasController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def idea_params
-      params.require(:idea).permit(:body)
+    def idea_category_params
+      params.require(:idea_category).permit(:name, :body)
     end
 end
