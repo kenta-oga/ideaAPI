@@ -24,6 +24,10 @@ class CategoriesController < ApplicationController
   end
 
   def search
+    unless Category.find_by(name: params[:category_name])
+      render status: :not_found
+      return
+    end
     @ideas = search_idea(params[:category_name])
     render json: @ideas
   end
@@ -55,11 +59,8 @@ class CategoriesController < ApplicationController
 
     def search_idea(category_name)
       if category_name != ""
-        if category = Category.find_by(name: category_name)
-          Idea.where(category_id: category.id)
-        else
-          nil
-        end
+        category = Category.find_by(name: category_name)
+        Idea.where(category_id: category.id)
       else
         Idea.all
       end
