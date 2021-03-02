@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :categories do
-    resources :ideas
+  root to: 'categories#index'
+  resources :categories, only: [:index, :create] do
     collection do
       post 'search'
     end

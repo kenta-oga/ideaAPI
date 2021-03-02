@@ -21,7 +21,7 @@ class CategoriesController < ApplicationController
       return
     end
     @ideas = search_idea(params[:category_name])
-    render json: @ideas
+    render json: @ideas, status: :created
   end
 
   private
