@@ -15,9 +15,7 @@ class IdeasController < ApplicationController
 
   # POST /ideas
   def create
-    
     @idea_category = IdeaCategory.new(idea_category_params)
-
     if @idea_category.save
       render json: @idea, status: :created, location: @idea
     else

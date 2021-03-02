@@ -2,11 +2,9 @@ class IdeaCategory
   include ActiveModel::Model
   attr_accessor :name, :body
 
-  with_options presence: true do
-    validates :name
-    validates :body
-  end
-  
+  validates :name, presence: true
+  validates :body, presence: true
+
   def save
     if Category.exists?(name: name)
       category = Category.find_by(name: name)

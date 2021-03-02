@@ -15,14 +15,17 @@ class CategoriesController < ApplicationController
 
   # POST /categories
   def create
-    @category = Category.new(category_params)
-    unless @category.name.present? 
-      if @category.save
-        render json: @category, status: :created, location: @category
-      else
-        render json: @category.errors, status: :unprocessable_entity
-      end
+    @idea_category = IdeaCategory.new(idea_category_params)
+    if @idea_category.save
+      render status: :created
+    else
+      render status: :unprocessable_entity
     end
+  end
+
+  def search
+    @ideas = search_idea(params[:category_name])
+    render json: @ideas
   end
 
   # PATCH/PUT /categories/1
@@ -46,7 +49,19 @@ class CategoriesController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def category_params
-      params.require(:category).permit(:id, :name)
+    def idea_category_params
+      params.require(:idea_category).permit(:name, :body)
+    end
+
+    def search_idea(category_name)
+      if category_name != ""
+        if category = Category.find_by(name: category_name)
+          Idea.where(category_id: category.id)
+        else
+          nil
+        end
+      else
+        Idea.all
+      end
     end
 end
