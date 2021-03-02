@@ -1,10 +1,4 @@
 class CategoriesController < ApplicationController
-  def index
-    @categories = Category.all
-
-    render json: @categories
-  end
-
   def create
     @idea_category = IdeaCategory.new(idea_category_params)
     if @idea_category.save
@@ -20,7 +14,12 @@ class CategoriesController < ApplicationController
       return
     end
     @ideas = search_idea(params[:category_name])
-    render json: @ideas, status: :created
+    @responses = []
+    @ideas.each do |idea|
+      response = { id: idea.id, category: idea.category.name, body: idea.body }
+      @responses << response
+    end
+    render json: @responses, status: :created
   end
 
   private
