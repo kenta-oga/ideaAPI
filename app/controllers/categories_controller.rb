@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-
   def index
     @categories = Category.all
 
@@ -25,17 +24,17 @@ class CategoriesController < ApplicationController
   end
 
   private
-    
-    def idea_category_params
-      params.require(:idea_category).permit(:name, :body)
-    end
 
-    def search_idea(category_name)
-      if category_name != ""
-        category = Category.find_by(name: category_name)
-        Idea.where(category_id: category.id)
-      else
-        Idea.all
-      end
+  def idea_category_params
+    params.require(:idea_category).permit(:name, :body)
+  end
+
+  def search_idea(category_name)
+    if category_name != ''
+      category = Category.find_by(name: category_name)
+      Idea.where(category_id: category.id)
+    else
+      Idea.all
     end
+  end
 end
